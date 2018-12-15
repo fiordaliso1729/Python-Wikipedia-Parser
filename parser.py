@@ -23,7 +23,6 @@ class Page:
         self.cat = []
         if page_py.exists():
             cat = page_py.categories #elenco delle cartegorie cui la pagina identificata con pageid pertiene
-            temp = []
             categories = list(cat.keys())
             categories = [w.replace(w, str(w)) for w in categories]
             for i in range(len(categories)):
