@@ -13,7 +13,6 @@ class Page:
     def __init__(self, url=None, pageid='', wik='', children=[]):
         self.children = children #Conterrà i link interni alla pagine wiki
         self.page_id = pageid #Identificatore univoco della pagina
-        self.num = 0
         self.url = url #contiene la stringa 'https://en.wikipedia.org/pageid'
         self.r = requests.get(url) #il metodo requests.get() fa il ping alla pagina desiderata
         self.categories = []
@@ -38,11 +37,10 @@ class Page:
         html_content = self.r.text
         soup = BeautifulSoup(html_content, 'html.parser')
         for link in [h.get('href') for h in soup.find_all('a')]:
-            if str(link).startswith('/wiki/'):
+            if str(link).startswith('/wiki/'):#il link viene effettivamente aggiunto solo se è una pagina Wikipedia
                 self.children.append(link)
-                self.num += 1
-        self.children = list(set(self.children))
-        print(self.children)
+        self.children = list(set(self.children))#elimina i duplicati nel caso di link multipli alla medesima pagina
+      
 
     def getChildren(self):
         return self.children
@@ -50,8 +48,8 @@ class Page:
 
 class Graph:
     def __init__(self, seed, page_id):
-        self.seed = Page(seed, page_id) #origine del grado
-        self.temp = []
+        self.seed = Page(seed, page_id) #origine del grafo
+        self.temp = [] #lista così strutturata: ogni elemento ha forma [page_id],[link interni in page_id]
 
     def expand(self):
         self.seed.addChildren()
@@ -70,4 +68,3 @@ class Graph:
 #test
 grafo = Graph('https://en.wikipedia.org/wiki/Mikhail_Alexandrovich_Gorchakov', 'Mikhail_Alexandrovich_Gorchakov')
 grafo.expand()
-print(grafo.temp[1])
