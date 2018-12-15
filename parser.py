@@ -3,30 +3,7 @@ from bs4 import BeautifulSoup
 from re import sub
 import wikipediaapi as wiki
 
-'''
 
-url = 'https://en.wikipedia.org/wiki/Mikhail_Alexandrovich_Gorchakov'
-seed='https://en.wikipedia.org/'
-r = requests.get(url)
-html_content = r.text
-soup = BeautifulSoup(html_content, 'html.parser')
-head=soup.title.string
-children=[]
-#page_links=[h.get('href') for h in soup.find_all('a')]
-for link in [h.get('href') for h in soup.find_all('a')]:
-    if str(link).startswith('/wiki/'):
-        children.append(link)
-        if children is not []:
-            print(children[len(children)-1])
-        else: print(children[0])
-
-'''
-
-
-def remove_prefix(text, prefix):
-    if text.startswith(prefix):
-        return text[len(prefix):]
-    return text
 
 
 class Page:
